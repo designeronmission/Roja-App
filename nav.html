@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottom Navigation Bar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 100vh;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated background particles */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: floatBackground 15s ease-in-out infinite;
+}
+
+@keyframes floatBackground {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 10;
+}
+
+.bottom-nav {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    height: 75px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 15px;
+    position: relative;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    padding: 8px;
+    z-index: 1;
+}
+
+/* Dashboard active item with floating effect */
+.nav-item.active {
+    margin-top: -50px;
+    animation: floatUp 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes floatUp {
+    0% {
+        margin-top: 0;
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        margin-top: -55px;
+        transform: scale(1.1);
+    }
+    100% {
+        margin-top: -50px;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Icon wrapper for active dashboard */
+.icon-wrapper {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Glowing circle behind - Enhanced */
+.glow-circle {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(229, 103, 114, 0.8) 0%, rgba(229, 103, 114, 0.4) 40%, rgba(229, 103, 114, 0) 70%);
+    filter: blur(25px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Additional pulsing glow effect */
+.glow-pulse {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(229, 103, 114, 0.4) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: expandPulse 2s ease-in-out infinite;
+}
+
+@keyframes expandPulse {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.6;
+    }
+}
+
+/* Dark circle with icon - Enhanced */
+.dark-circle {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 0 0 3px rgba(229, 103, 114, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    transition: all 0.3s ease;
+}
+
+.dark-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.5),
+        0 0 0 4px rgba(229, 103, 114, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+/* Simple icon wrapper for other items */
+.icon-wrapper-simple {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.icon-wrapper-simple::before {
+    content: '';
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background: rgba(229, 103, 114, 0);
+    border-radius: 50%;
+    transition: all 0.4s ease;
+    z-index: -1;
+}
+
+/* Font Awesome Icons */
+.icon-fa {
+    font-size: 22px;
+    transition: all 0.3s ease;
+}
+
+.dark-circle .icon-fa {
+    color: #E56772;
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(229, 103, 114, 0.5));
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.icon-wrapper-simple .icon-fa {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Labels */
+.nav-label {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-label.active {
+    color: #E56772;
+    font-weight: 700;
+    text-shadow: 
+        0 0 10px rgba(229, 103, 114, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Ellipse background for active item */
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95px;
+    height: 45px;
+    background: linear-gradient(135deg, rgba(229, 103, 114, 0.15) 0%, rgba(229, 103, 114, 0.08) 100%);
+    border-radius: 50%;
+    z-index: -1;
+    box-shadow: 0 4px 12px rgba(229, 103, 114, 0.2);
+    animation: ellipsePulse 2s ease-in-out infinite;
+}
+
+@keyframes ellipsePulse {
+    0%, 100% { 
+        transform: translateX(-50%) scale(1);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateX(-50%) scale(1.05);
+        opacity: 1;
+    }
+}
+
+/* Hover effects for non-active items */
+.nav-item:not(.active):hover {
+    transform: translateY(-5px);
+}
+
+.nav-item:not(.active):hover .icon-wrapper-simple {
+    transform: scale(1.15);
+}
+
+.nav-item:not(.active):hover .icon-wrapper-simple::before {
+    background: rgba(229, 103, 114, 0.2);
+    transform: scale(1);
+}
+
+.nav-item:not(.active):hover .icon-fa {
+    color: #E56772;
+    transform: scale(1.1);
+    filter: drop-shadow(0 4px 8px rgba(229, 103, 114, 0.4));
+}
+
+.nav-item:not(.active):hover .nav-label {
+    color: #E56772;
+    transform: translateY(-2px);
+    text-shadow: 
+        0 0 10px rgba(229, 103, 114, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Active click effect */
+.nav-item:active {
+    transform: scale(0.95);
+}
+
+/* Ripple effect on click */
+.nav-item::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(229, 103, 114, 0.3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nav-item:active::after {
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 450px) {
+    .bottom-nav {
+        padding: 0 10px;
+        height: 70px;
+    }
+    
+    .nav-label {
+        font-size: 10px;
+    }
+
+    .dark-circle {
+        width: 50px;
+        height: 50px;
+    }
+
+    .dark-circle .icon-fa {
+        font-size: 20px;
+    }
+
+    .icon-wrapper-simple {
+        width: 28px;
+        height: 28px;
+    }
+
+    .icon-fa {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 360px) {
+    .nav-label {
+        font-size: 9px;
+    }
+    
+    .nav-item {
+        gap: 6px;
+    }
+}
+
+/* Loading animation */
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="bottom-nav">
+            <!-- Dashboard Item (Active) -->
+            <div class="nav-item active" data-label="Dashboard">
+                <div class="icon-wrapper">
+                    <div class="glow-circle"></div>
+                    <div class="glow-pulse"></div>
+                    <div class="dark-circle">
+                        <i class="fa-solid fa-house icon-fa"></i>
+                    </div>
+                </div>
+                <div class="nav-label active">Dashboard</div>
+            </div>
+
+            <!-- Insights Item -->
+            <div class="nav-item" data-label="Insights">
+                <div class="icon-wrapper-simple">
+                    <i class="fa-solid fa-chart-line icon-fa"></i>
+                </div>
+                <div class="nav-label">Insights</div>
+            </div>
+
+            <!-- Budget Item -->
+            <div class="nav-item" data-label="Budget">
+                <div class="icon-wrapper-simple">
+                    <i class="fa-solid fa-chart-pie icon-fa"></i>
+                </div>
+                <div class="nav-label">Budget</div>
+            </div>
+
+            <!-- Goals Item -->
+            <div class="nav-item" data-label="Goals">
+                <div class="icon-wrapper-simple">
+                    <i class="fa-solid fa-bullseye icon-fa"></i>
+                </div>
+                <div class="nav-label">Goals</div>
+            </div>
+
+            <!-- Offers Item -->
+            <div class="nav-item" data-label="Offers">
+                <div class="icon-wrapper-simple">
+                    <i class="fa-solid fa-gift icon-fa"></i>
+                </div>
+                <div class="nav-label">Offers</div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Navigation interaction
+const navItems = document.querySelectorAll('.nav-item');
+
+navItems.forEach(item => {
+    item.addEventListener('click', function() {
+        // Remove active class from all items
+        navItems.forEach(nav => {
+            nav.classList.remove('active');
+            const label = nav.querySelector('.nav-label');
+            if (label) label.classList.remove('active');
+        });
+
+        // Add active class to clicked item
+        this.classList.add('active');
+        const activeLabel = this.querySelector('.nav-label');
+        if (activeLabel) activeLabel.classList.add('active');
+
+        // Remove existing wrapper if not active
+        const existingWrapper = document.querySelector('.icon-wrapper');
+        if (existingWrapper && !this.querySelector('.icon-wrapper')) {
+            const simpleWrapper = document.createElement('div');
+            simpleWrapper.className = 'icon-wrapper-simple';
+            const icon = existingWrapper.querySelector('.icon-fa').cloneNode(true);
+            simpleWrapper.appendChild(icon);
+            existingWrapper.parentElement.replaceChild(simpleWrapper, existingWrapper);
+        }
+
+        // Create new icon-wrapper for the active item
+        const simpleWrapper = this.querySelector('.icon-wrapper-simple');
+        if (simpleWrapper && !this.querySelector('.icon-wrapper')) {
+            const iconWrapper = document.createElement('div');
+            iconWrapper.className = 'icon-wrapper';
+            
+            const glowCircle = document.createElement('div');
+            glowCircle.className = 'glow-circle';
+            
+            const glowPulse = document.createElement('div');
+            glowPulse.className = 'glow-pulse';
+            
+            const darkCircle = document.createElement('div');
+            darkCircle.className = 'dark-circle';
+            
+            const icon = simpleWrapper.querySelector('.icon-fa').cloneNode(true);
+            darkCircle.appendChild(icon);
+            
+            iconWrapper.appendChild(glowCircle);
+            iconWrapper.appendChild(glowPulse);
+            iconWrapper.appendChild(darkCircle);
+            
+            simpleWrapper.parentElement.replaceChild(iconWrapper, simpleWrapper);
+        }
+
+        // Add haptic feedback effect
+        createParticles(this);
+    });
+
+    // Hover sound effect (visual feedback)
+    item.addEventListener('mouseenter', function() {
+        if (!this.classList.contains('active')) {
+            const icon = this.querySelector('.icon-fa');
+            if (icon) {
+                icon.style.transform = 'rotate(10deg)';
+            }
+        }
+    });
+
+    item.addEventListener('mouseleave', function() {
+        if (!this.classList.contains('active')) {
+            const icon = this.querySelector('.icon-fa');
+            if (icon) {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    });
+});
+
+// Create particle effect on click
+function createParticles(element) {
+    const rect = element.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    for (let i = 0; i < 6; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.width = '4px';
+        particle.style.height = '4px';
+        particle.style.borderRadius = '50%';
+        particle.style.background = '#E56772';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '9999';
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+        particle.style.boxShadow = '0 0 10px #E56772';
+        
+        document.body.appendChild(particle);
+
+        const angle = (Math.PI * 2 * i) / 6;
+        const velocity = 50 + Math.random() * 30;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity;
+
+        let posX = centerX;
+        let posY = centerY;
+        let opacity = 1;
+        let scale = 1;
+
+        function animate() {
+            posX += vx * 0.05;
+            posY += vy * 0.05;
+            opacity -= 0.02;
+            scale -= 0.02;
+
+            particle.style.left = posX + 'px';
+            particle.style.top = posY + 'px';
+            particle.style.opacity = opacity;
+            particle.style.transform = `scale(${scale})`;
+
+            if (opacity > 0) {
+                requestAnimationFrame(animate);
+            } else {
+                document.body.removeChild(particle);
+            }
+        }
+
+        animate();
+    }
+}
+
+// Add smooth scroll reveal animation
+window.addEventListener('load', () => {
+    const nav = document.querySelector('.bottom-nav');
+    nav.style.opacity = '0';
+    nav.style.transform = 'translateY(100px)';
+    
+    setTimeout(() => {
+        nav.style.transition = 'all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        nav.style.opacity = '1';
+        nav.style.transform = 'translateY(0)';
+    }, 100);
+});
+
+// Add floating animation on page idle
+let idleTimer;
+const floatingElements = document.querySelectorAll('.nav-item');
+
+function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+        floatingElements.forEach((el, index) => {
+            setTimeout(() => {
+                el.style.animation = 'gentle-float 3s ease-in-out infinite';
+            }, index * 100);
+        });
+    }, 3000);
+}
+
+// Create gentle float animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes gentle-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+`;
+document.head.appendChild(style);
+
+document.addEventListener('mousemove', resetIdleTimer);
+document.addEventListener('click', resetIdleTimer);
+
+resetIdleTimer();
+
+    </script>
+</body>
+</html>
